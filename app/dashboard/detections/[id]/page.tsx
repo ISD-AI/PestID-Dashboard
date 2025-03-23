@@ -194,7 +194,7 @@ export default function DetectionDetailPage({ params }: PageProps) {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Hello Location</CardTitle>
+                  <CardTitle>Location</CardTitle>
                 </CardHeader>
                 <CardContent className="h-[400px]">
                   {!isImageModalOpen && (
