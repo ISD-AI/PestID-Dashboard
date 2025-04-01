@@ -112,9 +112,13 @@ export function Overview() {
     : 0
     
   // Calculate detection accuracy
-  const accuracy = veriStats && (veriStats.verified + veriStats.rejected) > 0
-    ? Math.round((veriStats.verified / (veriStats.verified + veriStats.rejected)) * 100)
-    : 0
+  // Commented out actual calculation for now to use mock data
+  // const accuracy = veriStats && (veriStats.verified + veriStats.rejected) > 0
+  //   ? Math.round((veriStats.verified / (veriStats.verified + veriStats.rejected)) * 100)
+  //   : 0
+  
+  // Using mock data (96% accuracy) for demonstration purposes
+  const accuracy = 96
 
   // // Color mapping for Australian states to make the stacked bar visually distinct
   // const stateColors: {[key: string]: string} = {
