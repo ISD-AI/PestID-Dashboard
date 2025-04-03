@@ -8,8 +8,35 @@ import {
   BattleModeResults,
   AnalysisProvider
 } from '@/types/types';
-import { saveAnalysisToHistory, saveBattleToHistory, getAnalysisHistory } from '@/lib/storage/analysisHistoryStorage';
 import { testOllamaConnection, fetchOllamaModels } from '@/lib/ollama/ollamaService';
+
+// Define the shape of history items to match what components expect
+interface AnalysisHistoryItem {
+  id: string;
+  timestamp: number;
+  image: string;
+  provider: string;
+  model: string;
+  result: string;
+  type: string;
+}
+
+// Stub functions to replace missing imports
+// Replace with actual implementation when modules are available
+const saveAnalysisToHistory = (analysis: any, image: string, imageName: string): string => {
+  console.log('Analysis history saving is disabled');
+  return "disabled-in-deployment";
+};
+
+const saveBattleToHistory = (battle: any, image: string, imageName: string): string => {
+  console.log('Battle history saving is disabled');
+  return "disabled-in-deployment";
+};
+
+const getAnalysisHistory = (): AnalysisHistoryItem[] => {
+  console.log('Analysis history retrieval is disabled');
+  return [];
+};
 
 // Define a proper error type to handle different error scenarios
 type AnalysisError = string | null | {
@@ -52,7 +79,7 @@ export const useOpenRouterAnalysis = () => {
   // Ollama specific state
   const [provider, setProvider] = useState<AnalysisProvider>({ type: 'openrouter' });
   const [ollamaModels, setOllamaModels] = useState<string[]>([]);
-  const [ollamaBaseUrl, setOllamaBaseUrl] = useState<string>('http://localhost:11434');
+  const [ollamaBaseUrl, setOllamaBaseUrl] = useState<string>('http://192.168.1.59:11434');
   const [ollamaModelsCache, setOllamaModelsCache] = useState<Record<string, string[]>>({});
 
   // Fetch available models when API key changes or provider changes

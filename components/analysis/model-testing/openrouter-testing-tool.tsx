@@ -24,7 +24,6 @@ import {
   Loader2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { AnalysisHistoryDashboard } from '../history/AnalysisHistoryDashboard';
 import ReactMarkdown from 'react-markdown';
 
 interface OpenRouterTestingToolProps {
@@ -416,7 +415,22 @@ export default function OpenRouterTestingTool({ className }: OpenRouterTestingTo
 
               {/* History Tab */}
               <TabsContent value="history">
-                <AnalysisHistoryDashboard />
+                <Card className="shadow-sm border-muted">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-lg font-medium">Analysis History</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">
+                      View and manage your past analyses.
+                    </p>
+                    <div className="mt-4">
+                      <Button variant="outline" disabled>
+                        <History className="mr-2 h-4 w-4" />
+                        History feature temporarily unavailable
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
               </TabsContent>
             </Tabs>
           )}
