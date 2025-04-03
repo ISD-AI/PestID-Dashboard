@@ -419,3 +419,5 @@ gradle-app.setting
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,react,reactnative,node,yarn,nextjs,vercel
 
 .env.local
+# clerk configuration (can include secrets)
+/.clerk/
