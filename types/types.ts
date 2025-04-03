@@ -8,19 +8,19 @@ export interface BoundingBox {
   };
 }
 
-
 export interface Taxonomy {
-  family: string;
-  genus: string;
+  family?: string;
+  genus?: string;
   species: string;
-  confidence: number;
-  reasoning: string;
+  confidence?: number;
+  reasoning?: string;
+  details?: string;
 }
 
 export interface Detection {
-  box_2d: BoundingBox;
   taxonomy: Taxonomy;
-  possible_species: string[];
+  possible_species?: string[];
+  box_2d?: BoundingBox;
 }
 
 export interface ImageDimensions {
@@ -35,8 +35,53 @@ export interface StreamingState {
 }
 
 export interface AnalysisResult {
-  scientificName: string;
-  boundingBoxes?: BoundingBox[];
+  scientificName?: string;
+  model?: string;
+  responseText?: string;
+  detections?: Detection[];
+  usage?: any;
   debug?: any;
-  detections: Detection[];
+}
+
+// Battle mode types
+export interface BattleVote {
+  vote: 'left' | 'right' | 'tie' | 'both-bad';
+  timestamp: string;
+}
+
+export interface BattleModeResults {
+  leftModel: string;
+  leftResult: string;
+  rightModel: string;
+  rightResult: string;
+  votes: BattleVote[];
+}
+
+// OpenRouter Model Types
+export interface OpenRouterModel {
+  id: string;
+  name: string;
+  description?: string;
+  pricing?: any;
+  context_length?: number;
+  isFree?: boolean;
+}
+
+export interface OllamaModel {
+  name: string;
+}
+
+export interface AnalysisProvider {
+  type: 'openrouter' | 'ollama';
+  baseUrl?: string; // For Ollama
+  apiKey?: string;  // For OpenRouter
+}
+
+export interface AnalysisMode {
+  type: 'free' | 'battle';
+  selectedModels: string[];
+  provider: AnalysisProvider;
+  systemPrompt?: string;
+  maxTokens?: number;
+  temperature?: number;
 }

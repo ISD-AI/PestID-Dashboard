@@ -3,6 +3,7 @@ import { AnalysisResult, StreamingState } from '@/types/types';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
+import ReactMarkdown from 'react-markdown';
 
 interface ResultDisplayProps {
   result: AnalysisResult;
@@ -29,65 +30,42 @@ export function ResultDisplay({ result, streamingState }: ResultDisplayProps) {
       <Card className="p-4">
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">Detection Results</h3>
-            <Badge variant="outline">
-              {result.detections.length} Detections
-            </Badge>
+            <h3 className="text-lg font-semibold">Analysis Results</h3>
+            {result.model && (
+              <Badge variant="outline">
+                Model: {result.model}
+              </Badge>
+            )}
           </div>
 
           <ScrollArea className="h-[400px] pr-4">
-            <div className="space-y-4">
-              {result.detections.map((detection, index) => (
-                <Card key={index} className={cn(
-                  "p-4 border-l-4",
-                  index === streamingState.currentDetectionIndex && streamingState.status === 'refining'
-                    ? "border-l-blue-500 bg-blue-50"
-                    : "border-l-gray-200"
-                )}>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <h4 className="font-medium">Detection {index + 1}</h4>
-                      <Badge variant="outline">
-                        {Math.round(detection.taxonomy.confidence * 100)}% Confidence
-                      </Badge>
+            {result.responseText ? (
+              <div className="p-4 bg-muted/20 rounded-md prose prose-sm max-w-none markdown-content">
+                {/* Try to detect if the response is a valid markdown/text or an error object */}
+                {typeof result.responseText === 'string' && 
+                 !result.responseText.startsWith('{') && 
+                 !result.responseText.startsWith('[') ? (
+                  <ReactMarkdown>
+                    {result.responseText}
+                  </ReactMarkdown>
+                ) : (
+                  <div className="bg-red-50 p-4 rounded-md border border-red-200">
+                    <h3 className="text-red-800 text-sm font-medium mb-2">Error Response</h3>
+                    <div className="overflow-auto max-h-[300px] text-xs">
+                      <pre className="whitespace-pre-wrap break-all">
+                        {typeof result.responseText === 'string' 
+                          ? result.responseText 
+                          : JSON.stringify(result.responseText, null, 2)}
+                      </pre>
                     </div>
-                    
-                    <div className="grid grid-cols-2 gap-2 text-sm">
-                      <div className="text-gray-500">Family:</div>
-                      <div className="font-medium">{detection.taxonomy.family}</div>
-                      
-                      <div className="text-gray-500">Genus:</div>
-                      <div className="font-medium">{detection.taxonomy.genus}</div>
-                      
-                      <div className="text-gray-500">Species:</div>
-                      <div className="font-medium">{detection.taxonomy.species}</div>
-                    </div>
-
-                    {detection.possible_species.length > 0 && (
-                      <div className="mt-2">
-                        <div className="text-sm text-gray-500 mb-1">Candidate Species:</div>
-                        <div className="flex flex-wrap gap-1">
-                          {detection.possible_species.map((species, i) => (
-                            <Badge key={i} variant="secondary" className="text-xs">
-                              {species}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {detection.taxonomy.reasoning && (
-                      <div className="mt-2">
-                        <div className="text-sm text-gray-500 mb-1">Reasoning:</div>
-                        <div className="text-sm bg-gray-50 p-2 rounded">
-                          {detection.taxonomy.reasoning}
-                        </div>
-                      </div>
-                    )}
                   </div>
-                </Card>
-              ))}
-            </div>
+                )}
+              </div>
+            ) : (
+              <div className="p-4 bg-muted/20 rounded-md text-center text-muted-foreground">
+                No analysis results available
+              </div>
+            )}
           </ScrollArea>
         </div>
       </Card>

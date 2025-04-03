@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { DashboardShell } from "@/components/dashboard/shell"
-import { ModelTestingTool } from "@/components/analysis/model-testing/model-testing-tool"
+import OpenRouterTestingTool from "@/components/analysis/model-testing/openrouter-testing-tool"
 
 export const metadata: Metadata = {
   title: "Analysis Tools - Dashboard",
@@ -13,10 +13,10 @@ export default function AnalysisPage() {
     <DashboardShell>
       <DashboardHeader
         heading="Analysis Tools"
-        text="Test and analyze species using various AI models."
+        text="Test and compare species identification across multiple AI models."
       />
       <div className="grid gap-6">
-        <ModelTestingTool />
+        <OpenRouterTestingTool />
       </div>
     </DashboardShell>
   )

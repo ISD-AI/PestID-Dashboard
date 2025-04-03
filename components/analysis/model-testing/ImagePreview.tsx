@@ -26,22 +26,22 @@ export function ImagePreview({ src, detections, imageDimensions, onLoad }: Image
       />
       
       {detections?.map((detection, index) => {
-        const bbox = detection.box_2d.box_2d || (detection.box_2d as unknown as { x1: number; y1: number; x2: number; y2: number });
         return (
           <div
             key={index}
-            className="absolute border-2 border-green-500 bg-green-500/10"
+            className="inline-block m-1 p-1 bg-green-100 border border-green-500 rounded text-sm"
             style={{
-              left: `${bbox.x1 * 100}%`,
-              top: `${bbox.y1 * 100}%`,
-              width: `${(bbox.x2 - bbox.x1) * 100}%`,
-              height: `${(bbox.y2 - bbox.y1) * 100}%`
+              position: 'absolute',
+              bottom: '8px',
+              left: `${(index * 120) % 90}%`,
+              maxWidth: '120px',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
             }}
           >
-            <div className="absolute top-0 left-0 -translate-y-full">
-              <span className="inline-block px-1.5 py-0.5 text-xs bg-green-500 text-white rounded-sm whitespace-nowrap">
-                {detection.taxonomy.species}
-              </span>
+            <div className="font-medium text-green-800">
+              {detection.taxonomy?.species || "Unknown"}
             </div>
           </div>
         );
